@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AnCar Global Lead",
+  "type": "object",
+  "required": ["company_name", "country", "business_type", "language", "financing_status", "source", "source_date", "score", "status"],
+  "properties": {
+    "company_name": { "type": "string" },
+    "country": { "type": "string" },
+    "city": { "type": "string" },
+    "business_type": {
+      "type": "string",
+      "enum": [
+        "tienda_celulares_financia",
+        "financiera_celulares",
+        "electrodomesticos_financia_celulares",
+        "bnpl_smartphones",
+        "telecom_financia_celulares"
+      ]
+    },
+    "language": { "type": "string", "enum": ["es", "en", "other"] },
+    "website": { "type": "string" },
+    "phone": { "type": "string" },
+    "whatsapp": { "type": "string" },
+    "email": { "type": "string" },
+    "social": { "type": "string" },
+    "financing_status": {
+      "type": "string",
+      "enum": ["verified", "probable", "unknown", "not_financing"]
+    },
+    "financing_evidence": { "type": "string" },
+    "source": { "type": "string" },
+    "source_date": { "type": "string" },
+    "financing_method": { "type": "string" },
+    "phone_brands": { "type": "array", "items": { "type": "string" } },
+    "store_count": { "type": ["integer", "null"] },
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "status": {
+      "type": "string",
+      "enum": ["new", "verified", "contacted", "interested", "demo", "won", "lost"]
+    },
+    "commercial_angle": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+}
