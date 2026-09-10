@@ -6,21 +6,11 @@ const segments={
   telecom_financia_celulares:{es:['operador celular financia smartphones','telco celulares a cuotas','telecom celulares financiados'],en:['telecom smartphone financing','mobile operator phone installments','carrier smartphone financing']}
 };
 const regions={global:['global'],latin_america:['Mexico','Brazil','Colombia','Peru','Ecuador','Chile','Argentina','Dominican Republic','Guatemala','Costa Rica','Panama','Honduras','El Salvador','Bolivia','Paraguay','Uruguay'],north_america:['United States','Canada','Mexico'],europe:['United Kingdom','Spain','Germany','France','Italy','Portugal','Netherlands','Belgium','Ireland','Poland','Romania','Sweden','Norway'],africa:['Kenya','Nigeria','Ghana','Uganda','Tanzania','South Africa','Rwanda','Zambia','Ethiopia','Egypt'],asia:['India','Philippines','Indonesia','Malaysia','Thailand','Vietnam','Bangladesh','Pakistan','Japan','South Korea'],middle_east:['United Arab Emirates','Saudi Arabia','Jordan','Israel','Turkey','Qatar'],oceania:['Australia','New Zealand']};
-const $=id=>document.getElementById(id);
-let generated=[];
-function build(){
-  const segment=$('segment').value, language=$('language').value, region=$('country').value, extra=$('extra').value.trim();
-  const chosen=segment==='all'?Object.keys(segments):[segment];
-  const langs=language==='both'?['es','en']:[language];
-  const places=regions[region]||['global'];
-  generated=[];
-  for(const s of chosen) for(const lang of langs) for(const place of places){
-    for(const term of segments[s][lang]) generated.push({segment:s,language:lang,place,query:`"${term}" ${place==='global'?'':`"${place}" `}${extra}`.trim()});
-  }
-  generated=[...new Map(generated.map(x=>[x.query,x])).values()];
-  $('queryCount').textContent=generated.length;
-  $('queries').innerHTML=generated.slice(0,120).map((x,i)=>`<div class="query"><small>${i+1} · ${x.segment} · ${x.language.toUpperCase()} · ${x.place}</small><code>${escapeHtml(x.query)}</code></div>`).join('') || '<p>No hay consultas para los filtros seleccionados.</p>';
-}
-function escapeHtml(v){return v.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const $=id=>document.getElementById(id);let generated=[];let seedLeads=[];
+function build(){const segment=$('segment').value,language=$('language').value,region=$('country').value,extra=$('extra').value.trim();const chosen=segment==='all'?Object.keys(segments):[segment];const langs=language==='both'?['es','en']:[language];const places=regions[region]||['global'];generated=[];for(const s of chosen)for(const lang of langs)for(const place of places)for(const term of segments[s][lang])generated.push({segment:s,language:lang,place,query:`"${term}" ${place==='global'?'':`"${place}" `}${extra}`.trim()});generated=[...new Map(generated.map(x=>[x.query,x])).values()];$('queryCount').textContent=generated.length;$('queries').innerHTML=generated.slice(0,120).map((x,i)=>`<div class="query"><small>${i+1} · ${x.segment} · ${x.language.toUpperCase()} · ${x.place}</small><code>${escapeHtml(x.query)}</code></div>`).join('')||'<p>No hay consultas para los filtros seleccionados.</p>';}
+function renderSeeds(){const el=$('seedLeads');if(!el)return;el.innerHTML=seedLeads.map((x,i)=>`<article class="lead-card"><div><strong>${i+1}. ${escapeHtml(x.company)}</strong><span>${escapeHtml(x.country)} · ${escapeHtml(x.business_type)}</span></div><p>${escapeHtml(x.financing_evidence)}</p><a href="${encodeURI(x.website)}" target="_blank" rel="noopener">Fuente / website</a><small>${escapeHtml(x.ancar_angle)}</small></article>`).join('');}
+function exportLeads(){const rows=[['company','country','business_type','language','financing_evidence','website','source','status','ancar_angle'],...seedLeads.map(x=>[x.company,x.country,x.business_type,x.language,x.financing_evidence,x.website,x.source,x.status,x.ancar_angle])];const text=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download='ancar-verified-seed-leads.csv';a.click();URL.revokeObjectURL(a.href)}
+function escapeHtml(v){return String(v).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]));}
 function csv(){if(!generated.length)build();const rows=[['segment','language','place','query'],...generated.map(x=>[x.segment,x.language,x.place,x.query])];const text=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download='ancar-global-search-queries.csv';a.click();URL.revokeObjectURL(a.href)}
-$('build').addEventListener('click',build);$('export').addEventListener('click',csv);build();
+async function loadSeeds(){try{const r=await fetch('data/verified-seed-leads.json',{cache:'no-store'});if(!r.ok)throw new Error('seed load failed');seedLeads=await r.json();renderSeeds()}catch(e){$('seedLeads').innerHTML='<p>No se pudieron cargar las semillas verificadas.</p>'}}
+$('build').addEventListener('click',build);$('export').addEventListener('click',csv);$('exportLeads').addEventListener('click',exportLeads);build();loadSeeds();
