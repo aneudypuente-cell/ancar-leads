@@ -1,0 +1,26 @@
+name: Validate Leads 2
+
+on:
+  push:
+    paths:
+      - 'data/verified-leads-normalized.json'
+      - 'data/validate-normalized-leads.js'
+      - '.github/workflows/validate-leads.yml'
+  pull_request:
+    paths:
+      - 'data/verified-leads-normalized.json'
+      - 'data/validate-normalized-leads.js'
+      - '.github/workflows/validate-leads.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate normalized leads
+        run: node data/validate-normalized-leads.js
