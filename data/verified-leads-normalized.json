@@ -160,5 +160,41 @@
     "status": "verified",
     "commercial_angle": "Active smartphone BNPL retailer/platform; qualify merchant footprint and financed-device portfolio size.",
     "notes": "Current product pages show active installment plans with advance payments and 3–12 month options."
+  },
+  {
+    "company_name": "Watu Nigeria",
+    "country": "Nigeria",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "website": "https://watu.com/nigeria/",
+    "financing_status": "verified",
+    "financing_evidence": "Watu finances smartphones through authorized partner stores and dealers in Nigeria, requiring a small down payment and supporting repayment through its app.",
+    "source": "Watu Nigeria",
+    "source_date": "2026-09-10",
+    "financing_method": "Smartphone asset financing",
+    "phone_brands": ["Samsung"],
+    "store_count": null,
+    "score": 100,
+    "status": "verified",
+    "commercial_angle": "High-fit financed-smartphone operator with dealer network and device-control workflow; strong AnCar prospect.",
+    "notes": "Watu states financing is provided through partner stores/dealers and its app supports payments and device unlock controls."
+  },
+  {
+    "company_name": "EBA Phones",
+    "country": "Ghana",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "website": "https://ebaphones.com/",
+    "financing_status": "verified",
+    "financing_evidence": "EBA Phones offers iPhone installment plans where customers pay 40% upfront and the balance over 3 months, with additional buy-now-pay-later offers up to 12 weeks.",
+    "source": "EBA Phones",
+    "source_date": "2026-09-10",
+    "financing_method": "iPhone installment financing",
+    "phone_brands": ["Apple"],
+    "store_count": null,
+    "score": 100,
+    "status": "verified",
+    "commercial_angle": "Direct smartphone retailer with explicit installment financing; strong store-level AnCar fit.",
+    "notes": "Current public site lists active iPhone buy-now-pay-later products and installment terms."
   }
 ]
