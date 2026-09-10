@@ -1,0 +1,167 @@
+[
+  {
+    "company": "Samsung Finance+",
+    "country": "India",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "financing_evidence": "Financing plans for Galaxy devices with EMI terms up to 24 months.",
+    "website": "https://www.samsung.com/in/offer/finance-plus/",
+    "source": "Samsung India",
+    "status": "verified_seed",
+    "ancar_angle": "High-volume smartphone financing program; potential need for portfolio/device management at financed-device scale."
+  },
+  {
+    "company": "PayJoy",
+    "country": "Global / multiple markets",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Smartphones financed over weekly or monthly terms through partner stores.",
+    "website": "https://www.payjoy.com/phone-finance",
+    "source": "PayJoy",
+    "status": "verified_seed",
+    "ancar_angle": "Large device-financing ecosystem; classify as finance/device-finance prospect and validate operating markets before outreach."
+  },
+  {
+    "company": "SMARTPHONE ONLY GmbH",
+    "country": "Germany",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "financing_evidence": "Sells smartphones and offers financing and rental options in Germany and Austria.",
+    "website": "https://smartphoneonly.de",
+    "source": "Company profile / public company information",
+    "status": "verified_seed",
+    "ancar_angle": "Retail/e-commerce smartphone financing; qualify portfolio size and financing workflow."
+  },
+  {
+    "company": "Metro by T-Mobile",
+    "country": "United States",
+    "business_type": "telecom_financia_celulares",
+    "language": "en",
+    "financing_evidence": "Offers Affirm financing for phones and other devices through Metro stores.",
+    "website": "https://www.metrobyt-mobile.com/resources/device-financing",
+    "source": "Metro by T-Mobile",
+    "status": "verified_seed",
+    "ancar_angle": "Telecom retail financing; qualify whether financing is handled by local dealer network and identify independent retail partners."
+  },
+  {
+    "company": "GCI",
+    "country": "United States",
+    "business_type": "telecom_financia_celulares",
+    "language": "en",
+    "financing_evidence": "Offers device and cell phone financing with monthly payments and in-store financing applications.",
+    "website": "https://www.gci.com/shop/devices/financing",
+    "source": "GCI",
+    "status": "verified_seed",
+    "ancar_angle": "Device-financing telecom; investigate dealer/store portfolio and financed-device operational controls."
+  },
+  {
+    "company": "Watu",
+    "country": "Nigeria / Africa",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Smartphones are financed through authorized partner stores; company operates across multiple African countries.",
+    "website": "https://watu.com/nigeria/",
+    "source": "Watu Nigeria",
+    "status": "verified_seed",
+    "ancar_angle": "Strong fit due to financed smartphones + partner-store network; prioritize for B2B qualification."
+  },
+  {
+    "company": "Mogo Kenya",
+    "country": "Kenya",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Smartphone loans with dealer network, deposits and repayment terms up to 12 months.",
+    "website": "https://www.mogo.co.ke/smartphone-loans",
+    "source": "Mogo Kenya",
+    "status": "verified_seed",
+    "ancar_angle": "Direct smartphone-financing company with physical dealer network; high-priority prospect."
+  },
+  {
+    "company": "Smartworld Kenya",
+    "country": "Kenya",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "financing_evidence": "Lipa Polepole device financing with 40% deposit and 1–6 month weekly/monthly installments.",
+    "website": "https://smartworldkenya.com/lipa-polepole",
+    "source": "Smartworld Kenya",
+    "status": "verified_seed",
+    "ancar_angle": "Direct retailer financing devices; strong AnCar fit because the financing happens at store level."
+  },
+  {
+    "company": "Insta Phone",
+    "country": "Kenya",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "financing_evidence": "Samsung phones sold on credit with weekly payments and deposits.",
+    "website": "https://instaphone.co.ke/",
+    "source": "Insta Phone",
+    "status": "verified_seed",
+    "ancar_angle": "Direct financed-phone retailer; prioritize for store-level MDM sales outreach."
+  },
+  {
+    "company": "eCredit Kenya",
+    "country": "Kenya",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Device financing through authorized retailers, with listed partner shops.",
+    "website": "https://ecreditkenya.co.ke/choose-your-smartphone/",
+    "source": "eCredit Kenya",
+    "status": "verified_seed",
+    "ancar_angle": "Finance company connected to multiple retailers; qualify merchant network and financed-device volume."
+  },
+  {
+    "company": "Cellucity / FASTA",
+    "country": "South Africa",
+    "business_type": "electrodomesticos_financia_celulares",
+    "language": "en",
+    "financing_evidence": "Cellucity stores offer qualifying customers financing for phones, tablets, smartwatches and accessories through FASTA.",
+    "website": "https://cellucity.co.za/fasta/",
+    "source": "Cellucity / FASTA",
+    "status": "verified_seed",
+    "ancar_angle": "Retail chain with financed device sales; qualify store count and financing ownership."
+  },
+  {
+    "company": "Qist Bazaar",
+    "country": "Pakistan",
+    "business_type": "bnpl_smartphones",
+    "language": "en",
+    "financing_evidence": "BNPL installment financing for itel smartphones through itel stores and online channels.",
+    "website": "https://qistbazaar.pk/",
+    "source": "itel Pakistan partnership announcement",
+    "status": "verified_seed",
+    "ancar_angle": "BNPL platform connected to smartphone retail; qualify merchant footprint and device-financing portfolio."
+  },
+  {
+    "company": "Credlock",
+    "country": "Nigeria / Africa",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Smartphone financing through merchants and finance partners, with a multi-country African device-financing marketplace.",
+    "website": "https://www.credlockng.com/",
+    "source": "Credlock",
+    "status": "verified_seed",
+    "ancar_angle": "Device-finance marketplace with merchant network; qualify whether AnCar can serve merchant partners rather than compete at platform level."
+  },
+  {
+    "company": "Afriva",
+    "country": "Africa",
+    "business_type": "financiera_celulares",
+    "language": "en",
+    "financing_evidence": "Smartphone installment platform connecting consumers, retailers and brands; supports multiple African countries.",
+    "website": "https://af-credit.com/",
+    "source": "Afriva",
+    "status": "verified_seed",
+    "ancar_angle": "Retail-financing infrastructure with partner stores; qualify merchant network and operational device controls."
+  },
+  {
+    "company": "EBA Phones",
+    "country": "Ghana",
+    "business_type": "tienda_celulares_financia",
+    "language": "en",
+    "financing_evidence": "Buy-now-pay-later iPhone and electronics installment plans with initial payment and scheduled repayment.",
+    "website": "https://ebaphones.com/",
+    "source": "EBA Phones",
+    "status": "verified_seed",
+    "ancar_angle": "Direct financed-phone/electronics retailer; strong fit for store-level AnCar sales."
+  }
+]
