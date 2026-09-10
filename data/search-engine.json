@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "purpose": "Descubrir negocios que venden o financian celulares, no proveedores de bloqueo/MDM",
+  "languages": ["es", "en"],
+  "global": true,
+  "hard_exclude": [
+    "phone blocking software",
+    "mobile device management vendor",
+    "MDM provider",
+    "device lock software",
+    "phone lock platform"
+  ],
+  "qualification": {
+    "required_signal_any": [
+      "smartphone financing",
+      "phone financing",
+      "phones on credit",
+      "phones on installments",
+      "buy now pay later phones",
+      "celulares financiados",
+      "celulares a crédito",
+      "celulares en cuotas",
+      "financiamiento de smartphones",
+      "crédito para celulares"
+    ],
+    "strong_signals": [
+      "partner store",
+      "dealer network",
+      "multiple stores",
+      "store locator",
+      "installment plan",
+      "weekly payments",
+      "monthly payments",
+      "BNPL",
+      "device financing"
+    ]
+  },
+  "scoring": {
+    "explicit_phone_financing": 40,
+    "credit_installment_bnpl": 20,
+    "multiple_stores_or_dealers": 15,
+    "public_business_contact": 15,
+    "identifiable_recent_source": 10,
+    "maximum": 100
+  },
+  "workflow": [
+    "discover",
+    "verify_financing_signal",
+    "extract_company_and_country",
+    "extract_public_contact",
+    "deduplicate",
+    "score",
+    "classify",
+    "generate_sales_angle"
+  ]
+}
