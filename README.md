@@ -42,8 +42,27 @@ Prospectar → detectar evidencia de financiamiento → enriquecer → puntuar �
 - Diccionario bilingüe español/English.
 - Generación de consultas de descubrimiento.
 - Exportación CSV de consultas.
-- Esquema JSON normalizado para leads.
+- Carga del dataset JSON normalizado de leads.
+- Filtro por estado, país y texto libre.
+- Ordenación por score comercial.
+- Recalculo del score en tiempo de ejecución y al exportar.
+
+## Scoring
+
+El score máximo es 100 y se calcula con evidencia disponible en cada lead:
+
+- +40 evidencia explícita de financiamiento de celulares/dispositivos.
+- +20 cuotas, crédito, installments, finance o BNPL.
+- +15 múltiples sucursales o red de dealers/partners/agentes.
+- +15 contacto comercial público.
+- +10 fuente identificable con fecha dentro de los últimos 30 días.
+
+Los valores almacenados en el JSON no sustituyen el cálculo actual del frontend.
+
+## Publicación
+
+El repositorio incluye un workflow de GitHub Pages en `.github/workflows/deploy-pages.yml`. La última ejecución verificada falla en `Setup Pages` antes de `Upload site` y `Deploy` porque GitHub rechaza la configuración automática del sitio para el token de Actions. El código puede seguir desarrollándose sin considerar la publicación como completada.
 
 ## Próxima fase
 
-Conectar el motor de consultas a búsqueda externa y enriquecimiento para producir leads reales, guardar fuente/evidencia/fecha y calcular automáticamente el score comercial.
+Conectar el motor de consultas a búsqueda externa y enriquecimiento para producir leads reales, guardar fuente/evidencia/fecha y calcular automáticamente el score comercial. La publicación debe verificarse mediante una ejecución exitosa de GitHub Pages antes de considerarse operativa.
