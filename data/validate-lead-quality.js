@@ -11,17 +11,33 @@ if (!Array.isArray(leads)) {
   process.exit(1);
 }
 
+function validHttpUrl(value) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return ['http:', 'https:'].includes(url.protocol) && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
 leads.forEach((lead, i) => {
   const p = `lead[${i}] ${lead.company_name || '(unnamed)'}`;
+  const website = String(lead.website || '').trim();
+  const source = String(lead.source || '').trim();
+  const evidence = String(lead.financing_evidence || '').trim();
+  const method = String(lead.financing_method || '').trim();
+
   if (lead.financing_status === 'verified') {
-    if (!String(lead.financing_evidence || '').trim()) errors.push(`${p}: verified lead missing financing_evidence`);
-    if (!String(lead.website || '').trim()) errors.push(`${p}: verified lead missing website`);
-    if (!String(lead.financing_method || '').trim()) errors.push(`${p}: verified lead missing financing_method`);
+    if (!evidence) errors.push(`${p}: verified lead missing financing_evidence`);
+    if (!website) errors.push(`${p}: verified lead missing website`);
+    if (!method) errors.push(`${p}: verified lead missing financing_method`);
+    if (!source) errors.push(`${p}: verified lead missing source`);
+    if (!validHttpUrl(website)) errors.push(`${p}: verified lead website must be a valid http/https URL`);
     if (!String(lead.commercial_angle || '').trim()) warnings.push(`${p}: missing commercial_angle`);
   }
 
-  if (String(lead.website || '').trim() && !/^https?:\/\//i.test(lead.website)) {
-    errors.push(`${p}: website must use http/https`);
+  if (website && !validHttpUrl(website)) {
+    errors.push(`${p}: website must be a valid http/https URL`);
   }
 
   if (lead.source_date && !/^\d{4}-\d{2}-\d{2}$/.test(lead.source_date)) {
