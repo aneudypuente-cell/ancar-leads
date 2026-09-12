@@ -5,11 +5,13 @@ on:
     paths:
       - 'data/verified-leads-normalized.json'
       - 'data/validate-normalized-leads.js'
+      - 'data/audit-lead-scores.js'
       - '.github/workflows/validate-leads.yml'
   pull_request:
     paths:
       - 'data/verified-leads-normalized.json'
       - 'data/validate-normalized-leads.js'
+      - 'data/audit-lead-scores.js'
       - '.github/workflows/validate-leads.yml'
 
 jobs:
@@ -24,3 +26,5 @@ jobs:
           node-version: '20'
       - name: Validate normalized leads
         run: node data/validate-normalized-leads.js
+      - name: Audit stored lead scores
+        run: node data/audit-lead-scores.js
