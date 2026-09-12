@@ -8,6 +8,7 @@ on:
       - 'data/audit-lead-scores.js'
       - 'data/validate-ui-contract.js'
       - 'data/validate-lead-quality.js'
+      - 'data/validate-lead-integrity.js'
       - '.github/workflows/validate-leads.yml'
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - 'data/audit-lead-scores.js'
       - 'data/validate-ui-contract.js'
       - 'data/validate-lead-quality.js'
+      - 'data/validate-lead-integrity.js'
       - '.github/workflows/validate-leads.yml'
 
 jobs:
@@ -34,5 +36,7 @@ jobs:
         run: node data/audit-lead-scores.js
       - name: Validate lead quality
         run: node data/validate-lead-quality.js
+      - name: Validate lead integrity
+        run: node data/validate-lead-integrity.js
       - name: Validate UI contract
         run: node data/validate-ui-contract.js
