@@ -21,3 +21,25 @@ jobs:
 
       - name: Validate required frontend files
         run: test -f index.html && test -f styles.css && test -f app.js
+
+      - name: Validate frontend element contract
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const js = fs.readFileSync('app.js', 'utf8');
+          const requiredIds = [
+            'country','segment','language','extra','build','export',
+            'queryCount','queries','leadFilter','leadCountry','leadScore',
+            'leadSearch','clearLeadFilters','exportLeads','leadCount','seedLeads'
+          ];
+          const missing = requiredIds.filter(id => !new RegExp(`id=["']${id}["']`).test(html));
+          if (missing.length) throw new Error(`Missing HTML ids: ${missing.join(', ')}`);
+          const requiredHandlers = [
+            'build','export','exportLeads','clearLeadFilters',
+            'leadFilter','leadCountry','leadScore','leadSearch'
+          ];
+          const missingHandlers = requiredHandlers.filter(id => !js.includes(`$('${id}')`));
+          if (missingHandlers.length) throw new Error(`Missing JS handlers/references: ${missingHandlers.join(', ')}`);
+          console.log('Frontend element contract is valid');
+          NODE
