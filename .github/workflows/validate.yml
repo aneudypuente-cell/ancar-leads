@@ -17,7 +17,23 @@ jobs:
         run: node --check app.js
 
       - name: Validate lead dataset JSON
-        run: node -e "JSON.parse(require('fs').readFileSync('data/verified-leads-normalized.json','utf8')); console.log('Lead dataset JSON is valid')"
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const leads = JSON.parse(fs.readFileSync('data/verified-leads-normalized.json', 'utf8'));
+          if (!Array.isArray(leads)) throw new Error('Lead dataset must be an array');
+          const required = ['company_name','country','business_type','language','financing_status','financing_evidence','source','source_date','status'];
+          for (const [index, lead] of leads.entries()) {
+            for (const field of required) {
+              if (typeof lead[field] !== 'string' || !lead[field].trim()) throw new Error(`Lead ${index + 1}: missing ${field}`);
+            }
+            const date = Date.parse(lead.source_date);
+            if (!Number.isFinite(date)) throw new Error(`Lead ${index + 1}: invalid source_date`);
+            if (lead.website && !/^https?:\\/\\//i.test(lead.website)) throw new Error(`Lead ${index + 1}: invalid website URL`);
+            if (lead.score !== undefined && (!Number.isFinite(Number(lead.score)) || Number(lead.score) < 0 || Number(lead.score) > 100)) throw new Error(`Lead ${index + 1}: score must be 0-100`);
+          }
+          console.log(`Lead dataset is valid: ${leads.length} records`);
+          NODE
 
       - name: Validate required frontend files
         run: test -f index.html && test -f styles.css && test -f app.js
