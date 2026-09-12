@@ -12,7 +12,7 @@
     "financing_method": "EMI financing",
     "phone_brands": ["Samsung"],
     "store_count": 85000,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "High-volume smartphone financing program; potential need for portfolio/device management at financed-device scale.",
     "notes": "Samsung states Finance+ is available in 85,000+ stores across 800+ cities."
@@ -30,7 +30,7 @@
     "financing_method": "Weekly or monthly phone financing",
     "phone_brands": [],
     "store_count": null,
-    "score": 90,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Large device-financing ecosystem; qualify operating markets and partner-store model before outreach.",
     "notes": "Current public source verifies financing terms and store/online purchase flow; partner-store scale is not quantified here."
@@ -48,7 +48,7 @@
     "financing_method": "Smartphone loans",
     "phone_brands": [],
     "store_count": null,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "Direct smartphone-financing company with phone-shop dealer network; high-priority prospect.",
     "notes": "Mogo's current page states that it financed 100,000 smartphones across 36 Kenyan counties in 2025."
@@ -66,7 +66,7 @@
     "financing_method": "Weekly or monthly device installments",
     "phone_brands": ["Apple", "Samsung"],
     "store_count": 3,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "Direct retailer financing devices; strong AnCar fit because financing occurs at store level.",
     "notes": "Current source lists three Nairobi CBD branches."
@@ -84,7 +84,7 @@
     "financing_method": "Affirm device financing",
     "phone_brands": [],
     "store_count": null,
-    "score": 85,
+    "score": 65,
     "status": "verified",
     "commercial_angle": "Large telecom retail financing channel; qualify independent dealer footprint and whether financed-device controls are managed by retail partners.",
     "notes": "Official Metro page confirms financing availability at its stores."
@@ -102,7 +102,7 @@
     "financing_method": "Monthly device financing",
     "phone_brands": ["Apple"],
     "store_count": null,
-    "score": 80,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "Established device-financing telecom; qualify store/dealer operations and financed-device control requirements.",
     "notes": "Official GCI financing page confirms in-store and online application flows."
@@ -120,7 +120,7 @@
     "financing_method": "Weekly phone credit",
     "phone_brands": ["Samsung"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Direct financed-phone retailer; strong store-level AnCar fit.",
     "notes": "Current product listings show Samsung devices with weekly payment and deposit amounts."
@@ -138,7 +138,7 @@
     "financing_method": "Smartphone BNPL",
     "phone_brands": [],
     "store_count": 2000,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "High-fit device-finance marketplace with a large merchant network; potential channel partnership or merchant-level AnCar opportunity.",
     "notes": "Official Credlock pages confirm smartphone BNPL, merchant tooling and 2,000+ merchants/agents."
@@ -156,7 +156,7 @@
     "financing_method": "Monthly smartphone installments",
     "phone_brands": ["Itel", "Samsung", "Infinix", "Vivo"],
     "store_count": null,
-    "score": 90,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Active smartphone BNPL retailer/platform; qualify merchant footprint and financed-device portfolio size.",
     "notes": "Current product pages show active installment plans with advance payments and 3–12 month options."
@@ -174,7 +174,7 @@
     "financing_method": "Smartphone asset financing",
     "phone_brands": ["Samsung"],
     "store_count": null,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "High-fit financed-smartphone operator with dealer network and device-control workflow; strong AnCar prospect.",
     "notes": "Watu states financing is provided through partner stores/dealers and its app supports payments and device unlock controls."
@@ -192,7 +192,7 @@
     "financing_method": "iPhone installment financing",
     "phone_brands": ["Apple"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Direct smartphone retailer with explicit installment financing; strong store-level AnCar fit.",
     "notes": "Current public site lists active iPhone buy-now-pay-later products and installment terms."
@@ -210,7 +210,7 @@
     "financing_method": "0% smartphone installment financing",
     "phone_brands": ["Apple", "Samsung", "Google", "Huawei", "Xiaomi"],
     "store_count": null,
-    "score": 95,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Direct smartphone retailer with established financing workflow; strong device-finance prospect, though primarily online rather than store-level.",
     "notes": "Official site states financing is available for phones, tablets and wearables and has operated with partner banks for more than 10 years."
@@ -228,7 +228,7 @@
     "financing_method": "Easy2Own smartphone installments",
     "phone_brands": [],
     "store_count": null,
-    "score": 95,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Retail smartphone chain with explicit financed-device sales; strong AnCar fit if device-control responsibility sits with the retail/finance channel.",
     "notes": "Official Cellucity page describes Easy2Own as a 12-month smartphone payment program."
@@ -246,7 +246,7 @@
     "financing_method": "Weekly or monthly smartphone installments",
     "phone_brands": ["Apple", "Samsung", "TECNO", "Infinix"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "High-fit smartphone financing infrastructure with retailer partnerships across Africa; strong channel prospect for device-management capabilities.",
     "notes": "Official Afriva site lists retailer partnership, installment collection, and operations/contact coverage in multiple African countries."
@@ -264,7 +264,7 @@
     "financing_method": "Daily or weekly smartphone financing",
     "phone_brands": ["Samsung"],
     "store_count": null,
-    "score": 100,
+    "score": 85,
     "status": "verified",
     "commercial_angle": "High-fit financed-smartphone operator with a dealer network and device unlock workflow; strong AnCar prospect.",
     "notes": "Current public site states 'hundreds of locations' and describes an app workflow for balance tracking and phone unlocking."
@@ -282,7 +282,7 @@
     "financing_method": "Smartphone installment financing",
     "phone_brands": ["VIVO", "TECNO", "ITEL", "INFINIX"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Direct smartphone-financing platform with agents and device activation after approval; strong AnCar fit.",
     "notes": "Official site describes agent support, deposits, flexible installments and device activation after approval."
@@ -300,7 +300,7 @@
     "financing_method": "Daily, weekly or monthly smartphone installments",
     "phone_brands": ["Oppo", "Tecno", "Infinix"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "High-fit smartphone finance operator with stores and a device-management app; strong AnCar prospect.",
     "notes": "Current public site provides a store locator, financing process and app features for balance/device management."
@@ -318,7 +318,7 @@
     "financing_method": "Daily smartphone installments",
     "phone_brands": ["OPPO", "VIVO", "REALME", "ZTE", "Safaricom"],
     "store_count": null,
-    "score": 100,
+    "score": 70,
     "status": "verified",
     "commercial_angle": "Extremely high-fit device-financing prospect because its public model already uses financed-device lock behavior; strong AnCar target.",
     "notes": "Official site states that devices stay unlocked while current and may lock after missed payments."
