@@ -29,7 +29,7 @@ jobs:
             }
             const date = Date.parse(lead.source_date);
             if (!Number.isFinite(date)) throw new Error(`Lead ${index + 1}: invalid source_date`);
-            if (lead.website && !/^https?:\\/\\//i.test(lead.website)) throw new Error(`Lead ${index + 1}: invalid website URL`);
+            if (lead.website && !/^https?:\/\//i.test(lead.website)) throw new Error(`Lead ${index + 1}: invalid website URL`);
             if (lead.score !== undefined && (!Number.isFinite(Number(lead.score)) || Number(lead.score) < 0 || Number(lead.score) > 100)) throw new Error(`Lead ${index + 1}: score must be 0-100`);
           }
           console.log(`Lead dataset is valid: ${leads.length} records`);
