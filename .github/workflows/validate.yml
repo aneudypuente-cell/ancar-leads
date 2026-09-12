@@ -23,16 +23,23 @@ jobs:
           const leads = JSON.parse(fs.readFileSync('data/verified-leads-normalized.json', 'utf8'));
           if (!Array.isArray(leads)) throw new Error('Lead dataset must be an array');
           const required = ['company_name','country','business_type','language','financing_status','financing_evidence','source','source_date','status'];
+          const seen = new Set();
+          const today = new Date();
+          today.setUTCHours(23, 59, 59, 999);
           for (const [index, lead] of leads.entries()) {
             for (const field of required) {
               if (typeof lead[field] !== 'string' || !lead[field].trim()) throw new Error(`Lead ${index + 1}: missing ${field}`);
             }
             const date = Date.parse(lead.source_date);
             if (!Number.isFinite(date)) throw new Error(`Lead ${index + 1}: invalid source_date`);
+            if (date > today.getTime()) throw new Error(`Lead ${index + 1}: source_date cannot be in the future`);
             if (lead.website && !/^https?:\/\//i.test(lead.website)) throw new Error(`Lead ${index + 1}: invalid website URL`);
             if (lead.score !== undefined && (!Number.isFinite(Number(lead.score)) || Number(lead.score) < 0 || Number(lead.score) > 100)) throw new Error(`Lead ${index + 1}: score must be 0-100`);
+            const key = `${lead.company_name.trim().toLowerCase()}|${lead.country.trim().toLowerCase()}`;
+            if (seen.has(key)) throw new Error(`Lead ${index + 1}: duplicate company/country`);
+            seen.add(key);
           }
-          console.log(`Lead dataset is valid: ${leads.length} records`);
+          console.log(`Lead dataset is valid: ${leads.length} records, no duplicate company/country pairs`);
           NODE
 
       - name: Validate required frontend files
