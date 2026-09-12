@@ -42,6 +42,9 @@ jobs:
           console.log(`Lead dataset is valid: ${leads.length} records, no duplicate company/country pairs`);
           NODE
 
+      - name: Audit stored lead scores
+        run: node data/audit-lead-scores.js
+
       - name: Validate required frontend files
         run: test -f index.html && test -f styles.css && test -f app.js
 
@@ -56,7 +59,7 @@ jobs:
             'queryCount','queries','leadFilter','leadCountry','leadScore',
             'leadSearch','clearLeadFilters','exportLeads','leadCount','seedLeads'
           ];
-          const missing = requiredIds.filter(id => !new RegExp(`id=["']${id}["']`).test(html));
+          const missing = requiredIds.filter(id => !new RegExp(`id=[\"']${id}[\"']`).test(html));
           if (missing.length) throw new Error(`Missing HTML ids: ${missing.join(', ')}`);
           const requiredHandlers = [
             'build','export','exportLeads','clearLeadFilters',
