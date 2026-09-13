@@ -22,15 +22,22 @@ if (!/<script\s+src=["']app\.js["']\s*><\/script>/i.test(index)) {
 
 const requiredFunctions = [
   'build', 'csv', 'loadSeeds', 'renderSeeds', 'exportLeads',
-  'clearLeadFilters', 'normalizeLead', 'scoreLead'
+  'clearLeadFilters', 'normalizeLead', 'scoreLead', 'searchUrl', 'bindCopyButtons'
 ];
 const missingFunctions = requiredFunctions.filter(name => !new RegExp(`function\\s+${name}\\s*\\(`).test(app));
 if (missingFunctions.length) {
   throw new Error(`UI CONTRACT: missing app function(s): ${missingFunctions.join(', ')}`);
 }
 
-if (!app.includes("data/verified-leads-normalized.json")) {
-  throw new Error('UI CONTRACT: app.js must load the normalized leads dataset');
+const requiredBehavior = [
+  ['Google search links', /searchUrl\('google',/],
+  ['Bing search links', /searchUrl\('bing',/],
+  ['query clipboard copy', /navigator\.clipboard\.writeText/],
+  ['normalized dataset loading', /data\/verified-leads-normalized\.json/]
+];
+const missingBehavior = requiredBehavior.filter(([, pattern]) => !pattern.test(app)).map(([name]) => name);
+if (missingBehavior.length) {
+  throw new Error(`UI CONTRACT: missing required behavior: ${missingBehavior.join(', ')}`);
 }
 
-console.log(`UI CONTRACT PASSED: ${requiredHtmlIds.length} required controls and ${requiredFunctions.length} required functions are present.`);
+console.log(`UI CONTRACT PASSED: ${requiredHtmlIds.length} required controls, ${requiredFunctions.length} required functions, and ${requiredBehavior.length} required behaviors are present.`);
