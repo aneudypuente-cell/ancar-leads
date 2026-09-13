@@ -2,11 +2,29 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AnCar Global Lead",
   "type": "object",
-  "required": ["company_name", "country", "business_type", "language", "financing_status", "source", "source_date", "score", "status"],
+  "required": [
+    "company_name",
+    "country",
+    "business_type",
+    "language",
+    "financing_status",
+    "source",
+    "source_date",
+    "score",
+    "status",
+    "intent_status",
+    "need_signal"
+  ],
   "properties": {
-    "company_name": { "type": "string" },
-    "country": { "type": "string" },
-    "city": { "type": "string" },
+    "company_name": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
     "business_type": {
       "type": "string",
       "enum": [
@@ -17,28 +35,108 @@
         "telecom_financia_celulares"
       ]
     },
-    "language": { "type": "string", "enum": ["es", "en", "other"] },
-    "website": { "type": "string" },
-    "phone": { "type": "string" },
-    "whatsapp": { "type": "string" },
-    "email": { "type": "string" },
-    "social": { "type": "string" },
+    "language": {
+      "type": "string",
+      "enum": [
+        "es",
+        "en",
+        "other"
+      ]
+    },
+    "website": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "social": {
+      "type": "string"
+    },
     "financing_status": {
       "type": "string",
-      "enum": ["verified", "probable", "unknown", "not_financing"]
+      "enum": [
+        "verified",
+        "probable",
+        "unknown",
+        "not_financing"
+      ]
     },
-    "financing_evidence": { "type": "string" },
-    "source": { "type": "string" },
-    "source_date": { "type": "string" },
-    "financing_method": { "type": "string" },
-    "phone_brands": { "type": "array", "items": { "type": "string" } },
-    "store_count": { "type": ["integer", "null"] },
-    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "financing_evidence": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "source_date": {
+      "type": "string"
+    },
+    "financing_method": {
+      "type": "string"
+    },
+    "phone_brands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "store_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
     "status": {
       "type": "string",
-      "enum": ["new", "verified", "contacted", "interested", "demo", "won", "lost"]
+      "enum": [
+        "new",
+        "verified",
+        "contacted",
+        "interested",
+        "demo",
+        "won",
+        "lost"
+      ]
     },
-    "commercial_angle": { "type": "string" },
-    "notes": { "type": "string" }
+    "commercial_angle": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "intent_status": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown"
+      ]
+    },
+    "need_signal": {
+      "type": "string"
+    },
+    "need_evidence": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "contact_phone": {
+      "type": "string"
+    }
   }
 }
