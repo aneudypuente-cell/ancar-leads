@@ -1,10 +1,14 @@
 # AnCar Global Leads Finder
 
-Sistema de prospección comercial de AnCar para encontrar, calificar y gestionar negocios que venden o financian celulares.
+Sistema de prospección comercial de AnCar para descubrir, calificar y gestionar oportunidades en cualquier nicho.
 
 ## Objetivo
 
-Buscar prospectos a escala global, en español e inglés, con prioridad en negocios donde exista evidencia de celulares financiados, vendidos a crédito, en cuotas, installments, BNPL o modelos equivalentes.
+Buscar oportunidades a escala global, en español e inglés, usando señales de necesidad/intención comercial y evidencia pública verificable.
+
+### Segmentos iniciales
+
+El usuario puede cambiar el nicho y el tipo de cliente. El sistema no está limitado a seguros, celulares ni un sector concreto.
 
 ### Segmentos principales
 
@@ -63,6 +67,10 @@ Los valores almacenados en el JSON no sustituyen el cálculo actual del frontend
 
 El repositorio incluye un workflow de GitHub Pages en `.github/workflows/deploy-pages.yml`. La última ejecución verificada falla en `Setup Pages` antes de `Upload site` y `Deploy` porque GitHub rechaza la configuración automática del sitio para el token de Actions. El código puede seguir desarrollándose sin considerar la publicación como completada.
 
+## Motor web
+
+La interfaz genera consultas por nicho, ubicación, tipo de cliente y señal de necesidad. `api/search.php` conecta con Exa Search, recupera resultados y evidencia, y extrae contactos públicos cuando aparecen en el contenido. Exa ofrece búsqueda web, contenido y salidas estructuradas para flujos de prospección. La API requiere `EXA_API_KEY` configurada como secreto del servidor, nunca en JavaScript público.
+
 ## Próxima fase
 
-Conectar el motor de consultas a búsqueda externa y enriquecimiento para producir leads reales, guardar fuente/evidencia/fecha y calcular automáticamente el score comercial. La publicación debe verificarse mediante una ejecución exitosa de GitHub Pages antes de considerarse operativa.
+Configurar `EXA_API_KEY` en GoDaddy y verificar el endpoint en producción. Después validar búsquedas reales, deduplicación, scoring y exportación. La publicación debe verificarse mediante una prueba pública exitosa antes de considerarse operativa.
