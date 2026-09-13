@@ -14,7 +14,14 @@ if ($query === '') { http_response_code(400); echo json_encode(['ok'=>false,'err
 
 function http_get(string $url): string {
   $ch = curl_init($url);
-  curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER=>true, CURLOPT_FOLLOWLOCATION=>true, CURLOPT_MAXREDIRS=>3, CURLOPT_CONNECTTIMEOUT=>8, CURLOPT_TIMEOUT=>15, CURLOPT_USERAGENT=>'Mozilla/5.0 (compatible; AnCar Leads/2.0; +https://ancarrd.site/')]);
+  curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER=>true,
+    CURLOPT_FOLLOWLOCATION=>true,
+    CURLOPT_MAXREDIRS=>3,
+    CURLOPT_CONNECTTIMEOUT=>8,
+    CURLOPT_TIMEOUT=>15,
+    CURLOPT_USERAGENT=>'Mozilla/5.0 (compatible; AnCar Leads/2.0; +https://ancarrd.site/)'
+  ]);
   $body = curl_exec($ch);
   curl_close($ch);
   return is_string($body) ? $body : '';
