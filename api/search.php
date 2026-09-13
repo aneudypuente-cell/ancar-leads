@@ -41,12 +41,9 @@ function add_public_result(array &$out, string $url, string $title, int $limit):
 function parse_public_search(string $html, int $limit): array {
   $out = [];
   if ($html === '') return $out;
-
-  // DuckDuckGo HTML results.
   if (preg_match_all('#<a[^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $m, PREG_SET_ORDER)) {
     foreach ($m as $row) add_public_result($out, $row[1], $row[2], $limit);
   }
-  // Bing HTML results.
   if (count($out) < $limit && preg_match_all('#<li[^>]*class=["\'][^"\']*b_algo[^"\']*["\'][\s\S]*?<h2[^>]*>\s*<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#i', $html, $m, PREG_SET_ORDER)) {
     foreach ($m as $row) {
       add_public_result($out, $row[1], $row[2], $limit);
@@ -66,7 +63,9 @@ function extract_contacts(string $text): array {
 $apiKey = getenv('EXA_API_KEY') ?: ($_SERVER['EXA_API_KEY'] ?? '');
 $results = [];
 $provider = 'none';
+$attempts = [];
 if ($apiKey !== '') {
+  $attempts[] = 'exa';
   $payload = json_encode(['query'=>$query,'type'=>'auto','numResults'=>$num,'contents'=>['highlights'=>['maxCharacters'=>2500],'summary'=>['query'=>$query,'maxCharacters'=>1200]]], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
   $ch = curl_init('https://api.exa.ai/search');
   curl_setopt_array($ch, [CURLOPT_POST=>true,CURLOPT_RETURNTRANSFER=>true,CURLOPT_TIMEOUT=>25,CURLOPT_HTTPHEADER=>['Content-Type: application/json','x-api-key: '.$apiKey],CURLOPT_POSTFIELDS=>$payload]);
@@ -82,8 +81,10 @@ if ($apiKey !== '') {
   }
 }
 if (!$results) {
+  $attempts[] = 'duckduckgo';
   $items = parse_public_search(http_get('https://html.duckduckgo.com/html/?q='.rawurlencode($query)), $num);
   if (!$items) {
+    $attempts[] = 'bing';
     $items = parse_public_search(http_get('https://www.bing.com/search?q='.rawurlencode($query)), $num);
   }
   if ($items) $provider = 'public-web';
@@ -91,7 +92,9 @@ if (!$results) {
     $page = clean_text(http_get($item['url']));
     $evidence = substr($page, 0, 5000);
     [$email,$phone,$whatsapp] = extract_contacts($page);
-    $results[] = ['company'=>$item['title'],'website'=>$item['url'],'source'=>$item['url'],'evidence'=>$evidence,'description'=>substr($page,0,1000),'email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
+    $results[] = ['company'=>$item['title'],'website'=>$item['url'],'source'=>$item['url'],'evidence'=>$evidence ?: 'Resultado público encontrado en el buscador; contenido de la página no pudo recuperarse desde el servidor.','description'=>substr($page,0,1000) ?: $item['title'],'email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
   }
 }
-echo json_encode(['ok'=>true,'provider'=>$provider,'query'=>$query,'count'=>count($results),'results'=>$results], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+$ok = count($results) > 0;
+http_response_code($ok ? 200 : 502);
+echo json_encode(['ok'=>$ok,'provider'=>$provider,'attempts'=>$attempts,'query'=>$query,'count'=>count($results),'results'=>$results,'error'=>$ok?'':'No se obtuvieron resultados desde los proveedores configurados.'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
