@@ -55,7 +55,7 @@ if($apiKey){
   }
 }
 if(!$results){
-  $searchUrl='https://www.google.com/search?q='.rawurlencode($query);
+  $searchUrl='https://www.bing.com/search?q='.rawurlencode($query);
   $items=parse_public_search(http_get($searchUrl),$num);
   foreach($items as $item){
     $page=clean_text(http_get($item['url']));
