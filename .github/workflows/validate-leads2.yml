@@ -4,12 +4,13 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  syntax:
+  syntax-and-smoke:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,3 +21,5 @@ jobs:
         run: |
           php -l api/search.php
           php -l leads2-search.php
+      - name: Smoke test local search endpoint
+        run: bash tests/smoke-search.sh
