@@ -1,0 +1,22 @@
+name: Validate Leads 2
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Validate JavaScript syntax
+        run: node --check leads2.js
+      - name: Validate PHP syntax
+        run: |
+          php -l api/search.php
+          php -l leads2-search.php
