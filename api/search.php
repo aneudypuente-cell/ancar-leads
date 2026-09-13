@@ -30,7 +30,7 @@ function clean_text(string $html): string {
   $html = preg_replace('#<script\b[^>]*>.*?</script>|<style\b[^>]*>.*?</style>#is', ' ', $html) ?? $html;
   return trim(preg_replace('/\s+/', ' ', strip_tags($html)) ?? '');
 }
-function add_public_result(array &$out, string $url, string $title, int $limit): void {
+function add_public_result(array &$out, string $url, string $title, int $limit, string $snippet=''): void {
   $url = html_entity_decode(trim($url), ENT_QUOTES | ENT_HTML5);
   if (stripos($url, 'uddg=') !== false) {
     $p = parse_url($url, PHP_URL_QUERY);
@@ -42,18 +42,25 @@ function add_public_result(array &$out, string $url, string $title, int $limit):
   if ($host === '' || preg_match('#(^|\.)duckduckgo\.com$|(^|\.)bing\.com$|(^|\.)microsoft\.com$#i', $host)) return;
   $key = strtolower(rtrim($url, '/'));
   foreach ($out as $existing) if (strtolower(rtrim((string)$existing['url'], '/')) === $key) return;
-  $out[] = ['title'=>clean_text($title) ?: $url, 'url'=>$url];
+  $out[] = ['title'=>clean_text($title) ?: $url, 'url'=>$url, 'search_snippet'=>clean_text($snippet)];
   if (count($out) > $limit) array_pop($out);
 }
 function parse_public_search(string $html, int $limit): array {
   $out = [];
   if ($html === '') return $out;
   if (preg_match_all('#<a[^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $m, PREG_SET_ORDER)) {
-    foreach ($m as $row) add_public_result($out, $row[1], $row[2], $limit);
-  }
-  if (count($out) < $limit && preg_match_all('#<li[^>]*class=["\'][^"\']*b_algo[^"\']*["\'][\s\S]*?<h2[^>]*>\s*<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#i', $html, $m, PREG_SET_ORDER)) {
     foreach ($m as $row) {
-      add_public_result($out, $row[1], $row[2], $limit);
+      $snippet='';
+      $start=stripos($html,$row[0]);
+      if ($start!==false) $snippet=substr($html,$start,2500);
+      add_public_result($out, $row[1], $row[2], $limit, $snippet);
+    }
+  }
+  if (count($out) < $limit && preg_match_all('#<li[^>]*class=["\'][^"\']*b_algo[^"\']*["\'][\s\S]*?</li>#i', $html, $blocks)) {
+    foreach ($blocks[0] as $block) {
+      if (preg_match('#<h2[^>]*>\s*<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $block, $a)) {
+        add_public_result($out, $a[1], $a[2], $limit, $block);
+      }
       if (count($out) >= $limit) break;
     }
   }
@@ -97,9 +104,11 @@ if (!$results) {
   if ($items) $provider = 'public-web';
   foreach ($items as $item) {
     $page = clean_text(http_get($item['url']));
-    $evidence = substr($page, 0, 5000);
-    [$email,$phone,$whatsapp] = extract_contacts($page);
-    $results[] = ['company'=>$item['title'],'website'=>$item['url'],'source'=>$item['url'],'evidence'=>$evidence ?: 'Resultado público encontrado en el buscador; contenido de la página no pudo recuperarse desde el servidor.','description'=>substr($page,0,1000) ?: $item['title'],'email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
+    $pageEvidence = substr($page, 0, 5000);
+    $searchEvidence = (string)($item['search_snippet'] ?? '');
+    $evidence = trim($searchEvidence.' '.$pageEvidence);
+    [$email,$phone,$whatsapp] = extract_contacts($evidence);
+    $results[] = ['company'=>$item['title'],'website'=>$item['url'],'source'=>$item['url'],'evidence'=>$evidence ?: 'Resultado público encontrado en el buscador; contenido de la página no pudo recuperarse desde el servidor.','description'=>substr($page,0,1000) ?: ($searchEvidence ?: $item['title']),'email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
   }
 }
 $ok = count($results) > 0;
