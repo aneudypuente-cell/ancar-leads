@@ -32,6 +32,8 @@ jobs:
           cp styles.css _site/styles.css
           cp app.js _site/app.js
           cp leads2.html _site/leads2.html
+          cp leads2.css _site/leads2.css
+          cp leads2.js _site/leads2.js
           touch _site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
