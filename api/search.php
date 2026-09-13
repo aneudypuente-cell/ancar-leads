@@ -23,26 +23,37 @@ function clean_text(string $html): string {
   $html = preg_replace('#<script\b[^>]*>.*?</script>|<style\b[^>]*>.*?</style>#is', ' ', $html) ?? $html;
   return trim(preg_replace('/\s+/', ' ', strip_tags($html)) ?? '');
 }
+function add_public_result(array &$out, string $url, string $title, int $limit): void {
+  $url = html_entity_decode(trim($url), ENT_QUOTES | ENT_HTML5);
+  if (stripos($url, 'uddg=') !== false) {
+    $p = parse_url($url, PHP_URL_QUERY);
+    parse_str((string)$p, $q);
+    $url = (string)($q['uddg'] ?? $url);
+  }
+  if (!preg_match('#^https?://#i', $url)) return;
+  $host = strtolower((string)parse_url($url, PHP_URL_HOST));
+  if ($host === '' || preg_match('#(^|\.)duckduckgo\.com$|(^|\.)bing\.com$|(^|\.)microsoft\.com$#i', $host)) return;
+  $key = strtolower(rtrim($url, '/'));
+  foreach ($out as $existing) if (strtolower(rtrim((string)$existing['url'], '/')) === $key) return;
+  $out[] = ['title'=>clean_text($title) ?: $url, 'url'=>$url];
+  if (count($out) > $limit) array_pop($out);
+}
 function parse_public_search(string $html, int $limit): array {
   $out = [];
   if ($html === '') return $out;
-  if (preg_match_all('#<a[^>]+class=["\'][^"\']*result__a[^"\']*["\'][^>]+href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $m, PREG_SET_ORDER)) {
+
+  // DuckDuckGo HTML results.
+  if (preg_match_all('#<a[^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $m, PREG_SET_ORDER)) {
+    foreach ($m as $row) add_public_result($out, $row[1], $row[2], $limit);
+  }
+  // Bing HTML results.
+  if (count($out) < $limit && preg_match_all('#<li[^>]*class=["\'][^"\']*b_algo[^"\']*["\'][\s\S]*?<h2[^>]*>\s*<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#i', $html, $m, PREG_SET_ORDER)) {
     foreach ($m as $row) {
-      $url = html_entity_decode($row[1], ENT_QUOTES | ENT_HTML5);
-      $title = clean_text($row[2]);
-      if (stripos($url, 'uddg=') !== false) {
-        $p = parse_url($url, PHP_URL_QUERY);
-        parse_str((string)$p, $q);
-        $url = (string)($q['uddg'] ?? $url);
-      }
-      if (!preg_match('#^https?://#i', $url)) continue;
-      $host = strtolower((string)parse_url($url, PHP_URL_HOST));
-      if ($host === '' || str_contains($host, 'duckduckgo.com') || str_contains($host, 'bing.com') || str_contains($host, 'microsoft.com')) continue;
-      $out[] = ['title'=>$title, 'url'=>$url];
+      add_public_result($out, $row[1], $row[2], $limit);
       if (count($out) >= $limit) break;
     }
   }
-  return $out;
+  return array_slice($out, 0, $limit);
 }
 function extract_contacts(string $text): array {
   $email = ''; $phone = ''; $whatsapp = '';
@@ -54,6 +65,7 @@ function extract_contacts(string $text): array {
 
 $apiKey = getenv('EXA_API_KEY') ?: ($_SERVER['EXA_API_KEY'] ?? '');
 $results = [];
+$provider = 'none';
 if ($apiKey !== '') {
   $payload = json_encode(['query'=>$query,'type'=>'auto','numResults'=>$num,'contents'=>['highlights'=>['maxCharacters'=>2500],'summary'=>['query'=>$query,'maxCharacters'=>1200]]], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
   $ch = curl_init('https://api.exa.ai/search');
@@ -66,11 +78,15 @@ if ($apiKey !== '') {
       [$email,$phone,$whatsapp] = extract_contacts($e.' '.($x['summary'] ?? ''));
       $results[] = ['company'=>$x['title'] ?? '','website'=>$x['url'] ?? '','source'=>$x['url'] ?? '','evidence'=>$e,'description'=>$x['summary'] ?? '','email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
     }
+    if ($results) $provider = 'exa';
   }
 }
 if (!$results) {
-  $searchUrl = 'https://html.duckduckgo.com/html/?q='.rawurlencode($query);
-  $items = parse_public_search(http_get($searchUrl), $num);
+  $items = parse_public_search(http_get('https://html.duckduckgo.com/html/?q='.rawurlencode($query)), $num);
+  if (!$items) {
+    $items = parse_public_search(http_get('https://www.bing.com/search?q='.rawurlencode($query)), $num);
+  }
+  if ($items) $provider = 'public-web';
   foreach ($items as $item) {
     $page = clean_text(http_get($item['url']));
     $evidence = substr($page, 0, 5000);
@@ -78,4 +94,4 @@ if (!$results) {
     $results[] = ['company'=>$item['title'],'website'=>$item['url'],'source'=>$item['url'],'evidence'=>$evidence,'description'=>substr($page,0,1000),'email'=>$email,'phone'=>$phone,'whatsapp'=>$whatsapp,'status'=>'new','record_type'=>'discovered','source_date'=>date('c')];
   }
 }
-echo json_encode(['ok'=>true,'provider'=>$apiKey ? 'exa' : 'public-web','query'=>$query,'count'=>count($results),'results'=>$results], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+echo json_encode(['ok'=>true,'provider'=>$provider,'query'=>$query,'count'=>count($results),'results'=>$results], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
