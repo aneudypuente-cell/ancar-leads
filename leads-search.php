@@ -15,7 +15,7 @@ function clean_text(string $html): string { $html=preg_replace('/<script\b[^>]*>
 function parse_search(string $html,int $limit): array {
   $out=[]; if($html==='') return $out;
   libxml_use_internal_errors(true); $dom=new DOMDocument();
-  if(@$dom->loadHTML($html)){ $xp=new DOMXPath($dom); $nodes=$xp->query('//li[contains(concat(" ",normalize-space(@class)," ")," b_algo ")]//h2/a | //h2/a'); if($nodes) foreach($nodes as $a){$url=html_entity_decode((string)$a->getAttribute('href'),ENT_QUOTES);$title=trim(preg_replace('/\s+/',' ',$a->textContent));if(preg_match('/^https?:\/\//i',$url)&&$title)$out[]=['title'=>$title,'url'=>$url];if(count($out)>=$limit)break;} }
+  if(@$dom->loadHTML($html)){ $xp=new DOMXPath($dom); $nodes=$xp->query('//li[contains(concat(" ",normalize-space(@class)," ")," b_algo ")]//h2/a | //h2/a | //div[contains(@class,"result")]//h2/a'); if($nodes) foreach($nodes as $a){$url=html_entity_decode((string)$a->getAttribute('href'),ENT_QUOTES);$title=trim(preg_replace('/\s+/',' ',$a->textContent));if(preg_match('/^https?:\/\//i',$url)&&$title&&!preg_match('/bing\.com|microsoft\.com/i',$url))$out[]=['title'=>$title,'url'=>$url];if(count($out)>=$limit)break;} }
   if(count($out)<$limit && preg_match_all('/<a[^>]+href=["\'](https?:\/\/[^"\']+)["\'][^>]*>(.*?)<\/a>/is',$html,$m,PREG_SET_ORDER)){ foreach($m as $row){$url=html_entity_decode($row[1],ENT_QUOTES);$title=trim(strip_tags($row[2]));if(!$title||preg_match('/bing\.com|microsoft\.com/i',$url))continue;$out[]=['title'=>$title,'url'=>$url];if(count($out)>=$limit)break;} }
   $seen=[]; return array_values(array_filter($out,function($x)use(&$seen){$k=strtolower($x['url']);if(isset($seen[$k]))return false;$seen[$k]=1;return true;}));
 }
