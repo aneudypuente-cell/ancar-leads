@@ -20,6 +20,7 @@ function http_get(string $url): string {
     CURLOPT_MAXREDIRS=>3,
     CURLOPT_CONNECTTIMEOUT=>8,
     CURLOPT_TIMEOUT=>15,
+    CURLOPT_HTTPHEADER=>['Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'],
     CURLOPT_USERAGENT=>'Mozilla/5.0 (compatible; AnCar Leads/2.0; +https://ancarrd.site/)'
   ]);
   $body = curl_exec($ch);
@@ -48,14 +49,24 @@ function add_public_result(array &$out, string $url, string $title, int $limit, 
 function parse_public_search(string $html, int $limit): array {
   $out = [];
   if ($html === '') return $out;
-  if (preg_match_all('#<a[^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $m, PREG_SET_ORDER)) {
+
+  // DuckDuckGo commonly places class before href, but markup can vary.
+  $patterns = [
+    '#<a[^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is',
+    '#<a[^>]*href=["\']([^"\']+)["\'][^>]*class=["\'][^"\']*result__a[^"\']*["\'][^>]*>(.*?)</a>#is',
+  ];
+  foreach ($patterns as $pattern) {
+    if (!preg_match_all($pattern, $html, $m, PREG_SET_ORDER)) continue;
     foreach ($m as $row) {
       $snippet='';
       $start=stripos($html,$row[0]);
       if ($start!==false) $snippet=substr($html,$start,2500);
       add_public_result($out, $row[1], $row[2], $limit, $snippet);
+      if (count($out) >= $limit) break 2;
     }
   }
+
+  // Bing result blocks.
   if (count($out) < $limit && preg_match_all('#<li[^>]*class=["\'][^"\']*b_algo[^"\']*["\'][\s\S]*?</li>#i', $html, $blocks)) {
     foreach ($blocks[0] as $block) {
       if (preg_match('#<h2[^>]*>\s*<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#is', $block, $a)) {
@@ -64,6 +75,15 @@ function parse_public_search(string $html, int $limit): array {
       if (count($out) >= $limit) break;
     }
   }
+
+  // Last-resort generic external links for changed/variant public search markup.
+  if (count($out) < $limit && preg_match_all('#<a[^>]+href=["\'](https?://[^"\']+)["\'][^>]*>(.*?)</a>#is', $html, $links, PREG_SET_ORDER)) {
+    foreach ($links as $link) {
+      add_public_result($out, $link[1], $link[2], $limit, $link[0]);
+      if (count($out) >= $limit) break;
+    }
+  }
+
   return array_slice($out, 0, $limit);
 }
 function extract_contacts(string $text): array {
