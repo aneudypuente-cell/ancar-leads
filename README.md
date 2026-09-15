@@ -50,6 +50,7 @@ Prospectar → detectar evidencia de financiamiento → enriquecer → puntuar �
 - Filtro por estado, país y texto libre.
 - Ordenación por score comercial.
 - Recalculo del score en tiempo de ejecución y al exportar.
+- Búsqueda real desde el frontend mediante `leads2-search.php`.
 
 ## Scoring
 
@@ -65,7 +66,7 @@ Los valores almacenados en el JSON no sustituyen el cálculo actual del frontend
 
 ## Publicación
 
-El repositorio incluye un workflow de GitHub Pages en `.github/workflows/deploy-pages.yml`. La última ejecución verificada falla en `Setup Pages` antes de `Upload site` y `Deploy` porque GitHub rechaza la configuración automática del sitio para el token de Actions. El código puede seguir desarrollándose sin considerar la publicación como completada.
+El repositorio incluye un workflow de GitHub Pages en `.github/workflows/deploy-pages.yml`. El workflow prepara `_site`, sube el artefacto de Pages y ejecuta `actions/deploy-pages@v4`. La publicación no se considera operativa hasta verificar una ejecución de deployment exitosa y una URL pública funcional.
 
 ## Motor web
 
