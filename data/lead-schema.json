@@ -32,7 +32,9 @@
         "financiera_celulares",
         "electrodomesticos_financia_celulares",
         "bnpl_smartphones",
-        "telecom_financia_celulares"
+        "telecom_financia_celulares",
+        "reparacion_celulares_consolas",
+        "tienda_electrodomesticos_financia"
       ]
     },
     "language": {
@@ -137,6 +139,23 @@
     },
     "contact_phone": {
       "type": "string"
+    },
+    "email_verification": {
+      "type": "string",
+      "enum": [
+        "published_public",
+        "deliverability_unverified",
+        "not_published",
+        "pending_review"
+      ]
+    },
+    "email_source": {
+      "type": "string",
+      "format": "uri"
+    },
+    "location_source": {
+      "type": "string",
+      "format": "uri"
     }
   }
 }
