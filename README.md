@@ -17,6 +17,8 @@ El usuario puede cambiar el nicho y el tipo de cliente. El sistema no está limi
 - `electrodomesticos_financia_celulares` — tiendas de electrónica/electrodomésticos que también financian celulares.
 - `bnpl_smartphones` — BNPL y crédito para smartphones.
 - `telecom_financia_celulares` — operadores/retailers de telecom que financian dispositivos.
+- `reparacion_celulares_consolas` — empresas que reparan celulares, tablets o consolas.
+- `tienda_electrodomesticos_financia` — tiendas de electrodomésticos con financiación o pagos a plazos.
 
 ## Regla crítica
 
@@ -36,6 +38,8 @@ Prospectar → detectar evidencia de financiamiento → enriquecer → puntuar �
 - Registrar fuente y fecha de cada dato.
 - No enviar mensajes automáticamente sin una integración y autorización explícitas.
 - Diferenciar venta de celulares de financiamiento real.
+- Separar correos publicados públicamente de la validación de entregabilidad.
+- Mantener los prospectos de Estados Unidos en `data/us-prospects.json` hasta completar enriquecimiento y deduplicación.
 - Priorizar evidencia verificable de financiamiento.
 
 ## MVP actual
@@ -71,6 +75,10 @@ El repositorio incluye un workflow de GitHub Pages en `.github/workflows/deploy-
 ## Motor web
 
 La interfaz genera consultas por nicho, ubicación, tipo de cliente y señal de necesidad. `api/search.php` conecta con Exa Search, recupera resultados y evidencia, y extrae contactos públicos cuando aparecen en el contenido. Exa ofrece búsqueda web, contenido y salidas estructuradas para flujos de prospección. La API requiere `EXA_API_KEY` configurada como secreto del servidor, nunca en JavaScript público.
+
+## Prospectos de Estados Unidos
+
+`data/us-prospects.json` contiene el lote inicial de prospectos estadounidenses con evidencia y URL de fuente. Los emails marcados `published_public` aparecen en la fuente oficial indicada; eso no equivale a validar entregabilidad. Los registros sin email confirmado deben enriquecerse antes de enviar campañas. El lote no se considera una lista final de 100 empresas hasta deduplicar, completar contactos y revisar la compatibilidad comercial.
 
 ## Próxima fase
 
