@@ -9,7 +9,9 @@ const allowedBusinessTypes = new Set([
   'financiera_celulares',
   'electrodomesticos_financia_celulares',
   'bnpl_smartphones',
-  'telecom_financia_celulares'
+  'telecom_financia_celulares',
+  'reparacion_celulares_consolas',
+  'tienda_electrodomesticos_financia'
 ]);
 const allowedLanguages = new Set(['es', 'en', 'other']);
 const allowedFinancingStatus = new Set(['verified', 'probable', 'unknown', 'not_financing']);
@@ -36,6 +38,10 @@ if (!Array.isArray(leads)) errors.push('Dataset must be an array.');
   if (lead.phone_brands !== undefined && !Array.isArray(lead.phone_brands)) errors.push(`${p}: phone_brands must be array`);
   if (lead.website !== undefined && lead.website !== '' && !/^https?:\/\//i.test(lead.website)) errors.push(`${p}: website must use http/https`);
   if (lead.financing_status === 'verified' && (!lead.financing_evidence || !lead.source)) errors.push(`${p}: verified financing requires evidence and source`);
+  if (lead.email_verification && !['published_public','deliverability_unverified','not_published','pending_review'].includes(lead.email_verification)) errors.push(`${p}: invalid email_verification`);
+  const emailValue = String(lead.email || lead.contact_email || '');
+  if (lead.email_verification === 'published_public' && (!emailValue.includes('@') || !emailValue.split('@')[1]?.includes('.'))) errors.push(`${p}: published_public email requires a valid email address`);
+  if (lead.email_source && !(lead.email_source.startsWith('https://') || lead.email_source.startsWith('http://'))) errors.push(`${p}: email_source must use http/https`);
 });
 
 const seen = new Set();
