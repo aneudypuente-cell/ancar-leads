@@ -26,9 +26,11 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
+          mkdir -p _site/data
           cp index.html _site/index.html
           cp styles.css _site/styles.css
           cp app.js _site/app.js
+          cp data/us-prospects.json _site/data/us-prospects.json
           cp leads2.html _site/leads2.html
           cp leads2.css _site/leads2.css
           cp leads2.js _site/leads2.js
